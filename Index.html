@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Service Appointment</title>
+  <style>
+    :root {
+      --suzuki-blue: #004ea8;
+      --suzuki-red: #e60012;
+      --light-gray: #f5f7fa;
+      --border-gray: #ddd;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: var(--light-gray);
+      color: #1b1b1b;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: var(--suzuki-blue);
+      color: white;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 1.6rem;
+      letter-spacing: 1px;
+      font-weight: 600;
+      border-bottom: 4px solid var(--suzuki-red);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      padding: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--border-gray);
+      padding: 0.75rem;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: var(--suzuki-blue);
+      color: white;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    tr:hover {
+      background-color: #f0f6ff;
+    }
+
+    td[contenteditable="true"] {
+      background-color: #f9fbff;
+      border-radius: 4px;
+      outline: none;
+      cursor: text;
+    }
+
+    select {
+      padding: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .controls {
+      margin-top: 1.2rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+
+    button {
+      background-color: var(--suzuki-blue);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    button:hover {
+      background-color: var(--suzuki-red);
+      transform: scale(1.03);
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      font-size: 0.85rem;
+      margin-top: 2rem;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      main {
+        box-shadow: none;
+        border: none;
+      }
+      .controls, footer {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Service Appointment
+  </header>
+
+  <main>
+    <table id="scheduleTable">
+      <thead>
+        <tr>
+          <th>Client #</th>
+          <th>Appointment Time</th>
+          <th>Customer Name</th>
+          <th>Plate Number</th>
+          <th>Vehicle Model</th>
+          <th>Service Type</th>
+          <th>Job Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td contenteditable="true"></td>
+          <td contenteditable="true"></td>
+          <td contenteditable="true"></td>
+          <td contenteditable="true"></td>
+          <td contenteditable="true"></td>
+          <td>
+            <select>
+              <option value="PMS">PMS</option>
+              <option value="General Job">General Job</option>
+              <option value="BRP">BRP</option>
+            </select>
+          </td>
+          <td>
+            <select>
+              <option value="Waiting For Client">Waiting For Client</option>
+              <option value="On-Going">On-Going</option>
+              <option value="Ready for Send Off">Ready for Send Off</option>
+              <option value="Done">Done</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="controls">
+      <button onclick="addRow()">Add Row</button>
+      <button onclick="removeRow()">Remove Row</button>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Suzuki Service | Minimalist Schedule Board
+  </footer>
+
+  <script>
+    function addRow() {
+      const tableBody = document.getElementById('scheduleTable').getElementsByTagName('tbody')[0];
+      const newRow = tableBody.rows[0].cloneNode(true);
+      
+      newRow.querySelectorAll('td').forEach(td => {
+        if (td.hasAttribute('contenteditable')) td.textContent = '';
+        const select = td.querySelector('select');
+        if (select) select.selectedIndex = 0;
+      });
+      
+      tableBody.appendChild(newRow);
+    }
+
+    function removeRow() {
+      const tableBody = document.getElementById('scheduleTable').getElementsByTagName('tbody')[0];
+      if (tableBody.rows.length > 1) {
+        tableBody.deleteRow(tableBody.rows.length - 1);
+      } else {
+        alert('You must have at least one row.');
+      }
+    }
+  </script>
+</body>
+</html>
